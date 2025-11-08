@@ -21,4 +21,5 @@ def check_for_update():
             subprocess.Popen([tmp_path])
             sys.exit(0)
     else:
+
         print("[UPDATE] Up to date.")
