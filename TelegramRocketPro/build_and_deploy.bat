@@ -1,15 +1,20 @@
 @echo off
-echo Building EXE...
-pyinstaller --key=your_secret_key telegram_rocket_pro.spec
+echo [B 007 v1.4] Building...
 
-echo Collecting artifacts...
-pyupdater collect
+REM Generate License Keys
+python keygen.py --gen-keys
 
-echo Signing...
-pyupdater pkg --process --sign
+REM Build EXE (NO --key!)
+pyinstaller telegram_rocket_pro.spec
 
-echo Uploading to GitHub...
-pyupdater upload --service github
+REM Sign EXE (EV or Self-Signed)
+python sign_exe.py --sign
 
-echo Done! New version live.
+REM Build MSI
+candle.exe b007.wxs
+light.exe -ext WixUIExtension b007.wixobj -o "B 007 v1.4.msi"
+
+echo.
+echo [SUCCESS] B 007 v1.4.msi + B 007.exe (Signed)
+echo Upload EXE to GitHub Releases for Auto-Update
 pause
